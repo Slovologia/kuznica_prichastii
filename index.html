@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Кузница Причастий — Запорожская Сечь</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Marck+Script&family=Ruslan+Display&family=Neucha&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    background: #1a0e08;
+    background-image:
+      radial-gradient(ellipse at 20% 80%, rgba(255,80,0,0.15) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 20%, rgba(255,60,0,0.1) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 50%, rgba(139,69,19,0.3) 0%, transparent 70%);
+    font-family: 'Neucha', cursive;
+    color: #f0e6d3;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background:
+      repeating-linear-gradient(90deg, transparent, transparent 48px, rgba(80,40,20,0.3) 48px, rgba(80,40,20,0.3) 50px),
+      repeating-linear-gradient(0deg, transparent, transparent 48px, rgba(80,40,20,0.2) 48px, rgba(80,40,20,0.2) 50px);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 20px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .header { text-align: center; padding: 20px 0 10px; }
+
+  .header h1 {
+    font-family: 'Ruslan Display', cursive;
+    font-size: 2.4em;
+    color: #ffcc66;
+    text-shadow: 0 0 20px rgba(255,150,0,0.5), 2px 2px 4px rgba(0,0,0,0.8);
+    letter-spacing: 3px;
+  }
+
+  .header .subtitle {
+    font-family: 'Marck Script', cursive;
+    font-size: 1.3em;
+    color: #cc9966;
+    margin-top: 5px;
+  }
+
+  .fire-container {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    height: 120px;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  .fire {
+    position: absolute;
+    bottom: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(to top, rgba(255,60,0,0.3), rgba(255,120,0,0.1), transparent);
+    animation: fireFlicker 2s ease-in-out infinite alternate;
+  }
+
+  @keyframes fireFlicker {
+    0% { opacity: 0.6; transform: scaleY(0.9); }
+    50% { opacity: 1; transform: scaleY(1.05); }
+    100% { opacity: 0.7; transform: scaleY(0.95); }
+  }
+
+  .ember {
+    position: absolute;
+    width: 4px; height: 4px;
+    background: #ff8800;
+    border-radius: 50%;
+    animation: emberRise 3s ease-in infinite;
+    box-shadow: 0 0 6px #ff6600;
+  }
+
+  @keyframes emberRise {
+    0% { transform: translateY(0) scale(1); opacity: 1; }
+    100% { transform: translateY(-120px) scale(0); opacity: 0; }
+  }
+
+  .sample-section {
+    background: rgba(60,30,10,0.6);
+    border: 2px solid #8B6914;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 20px 0;
+    position: relative;
+  }
+
+  .sample-section::before {
+    content: ' ОБРАЗЕЦ ';
+    position: absolute;
+    top: -12px; left: 50%;
+    transform: translateX(-50%);
+    background: #1a0e08;
+    padding: 0 15px;
+    font-family: 'Ruslan Display', cursive;
+    color: #ffcc66;
+    font-size: 0.9em;
+    letter-spacing: 2px;
+  }
+
+  .sample-verb {
+    font-family: 'Ruslan Display', cursive;
+    font-size: 1.5em;
+    color: #ffcc66;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+
+  .sample-shashka {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    position: relative;
+    height: 100px;
+  }
+
+  .pommel {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #8B7355, #5C4033, #3E2723);
+    border: 3px solid #B8860B;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75em;
+    color: #f0e6d3;
+    box-shadow: 0 0 15px rgba(184,134,11,0.3), inset 0 0 10px rgba(0,0,0,0.5);
+    position: relative;
+    z-index: 2;
+    flex-shrink: 0;
+  }
+
+  .pommel .conj { font-weight: bold; font-size: 1.2em; color: #ffcc66; }
+  .pommel .aspect { font-size: 0.85em; color: #ccaa77; }
+
+  .handle {
+    height: 50px;
+    min-width: 120px;
+    background: linear-gradient(to bottom, #6B4226, #4A2E18, #6B4226);
+    border-top: 3px solid #B8860B;
+    border-bottom: 3px solid #B8860B;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 0 15px;
+    font-size: 1.1em;
+    color: #f0e6d3;
+    position: relative;
+    z-index: 1;
+    flex-shrink: 0;
+  }
+
+  .handle .stem { color: #f0e6d3; font-weight: bold; }
+  .handle .ending {
+    color: #ff6644; font-weight: bold;
+    background: rgba(255,100,50,0.15);
+    padding: 2px 6px; border-radius: 4px;
+    border: 1px solid rgba(255,100,50,0.4);
+  }
+
+  .handle .postfix {
+    color: #88ccff; font-weight: bold;
+    background: rgba(100,180,255,0.15);
+    padding: 2px 6px; border-radius: 4px;
+    border: 1px solid rgba(100,180,255,0.4);
+    font-size: 0.9em;
+  }
+
+  .blade {
+    height: 60px;
+    min-width: 220px;
+    flex: 1;
+    max-width: 380px;
+    background: linear-gradient(to bottom, #C0C0C0, #E8E8E8, #A8A8A8, #D0D0D0);
+    clip-path: polygon(0 15%, 88% 0%, 100% 50%, 88% 100%, 0 85%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 0 30px 0 35px;
+    font-size: 1.2em;
+    color: #2a2a2a;
+    position: relative;
+    z-index: 1;
+    flex-shrink: 0;
+  }
+
+  .blade .stem { color: #1a1a1a; font-weight: bold; }
+  .blade .suffix { color: #cc0000; font-weight: bold; font-size: 1.1em; }
+  .blade .part-ending { color: #555; font-weight: bold; }
+
+  .game-section {
+    background: rgba(60,30,10,0.6);
+    border: 2px solid #8B6914;
+    border-radius: 12px;
+    padding: 25px;
+    margin: 20px 0;
+    position: relative;
+  }
+
+  .game-section::before {
+    content: ' КУЙ ШАШКУ! ⚒';
+    position: absolute;
+    top: -12px; left: 50%;
+    transform: translateX(-50%);
+    background: #1a0e08;
+    padding: 0 15px;
+    font-family: 'Ruslan Display', cursive;
+    color: #ff6644;
+    font-size: 0.9em;
+    letter-spacing: 2px;
+  }
+
+  .current-verb {
+    text-align: center;
+    font-family: 'Ruslan Display', cursive;
+    font-size: 2em;
+    color: #ffcc66;
+    margin-bottom: 5px;
+    text-shadow: 0 0 10px rgba(255,150,0,0.3);
+  }
+
+  .verb-instruction {
+    text-align: center;
+    color: #cc9966;
+    font-size: 1.1em;
+    margin-bottom: 20px;
+  }
+
+  .game-shashka {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    min-height: 120px;
+    position: relative;
+  }
+
+  .pommel-interactive {
+    width: 100px; height: 100px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #5C4033, #3E2723);
+    border: 3px solid #666;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    position: relative;
+    z-index: 2;
+    flex-shrink: 0;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+
+  .pommel-interactive.correct {
+    border-color: #4CAF50;
+    box-shadow: 0 0 20px rgba(76,175,80,0.5);
+  }
+
+  .pommel-interactive.wrong {
+    border-color: #f44336;
+    box-shadow: 0 0 15px rgba(244,67,54,0.4);
+    animation: shake 0.5s;
+  }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+  }
+
+  .pommel-interactive select {
+    background: #2a1a0e;
+    color: #f0e6d3;
+    border: 1px solid #8B6914;
+    border-radius: 5px;
+    padding: 3px 5px;
+    font-family: 'Neucha', cursive;
+    font-size: 0.85em;
+    cursor: pointer;
+    width: 85px;
+    text-align: center;
+  }
+
+  .pommel-interactive select:focus { outline: none; border-color: #ffcc66; }
+  .pommel-label { font-size: 0.65em; color: #997755; margin-top: 2px; }
+
+  .handle-interactive {
+    height: 55px;
+    min-width: 180px;
+    background: linear-gradient(to bottom, #4A2E18, #3a2010, #4A2E18);
+    border-top: 3px solid #666;
+    border-bottom: 3px solid #666;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 0 10px;
+    position: relative;
+    z-index: 1;
+    flex-shrink: 0;
+    transition: border-color 0.3s;
+  }
+
+  .handle-interactive.correct { border-color: #4CAF50; }
+  .handle-interactive.wrong {
+    border-color: #f44336;
+    animation: shake 0.5s;
+  }
+
+  .handle-interactive input {
+    background: rgba(0,0,0,0.4);
+    color: #f0e6d3;
+    border: 1px solid #8B6914;
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-family: 'Neucha', cursive;
+    font-size: 1.1em;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .handle-interactive input.stem-input { width: 100px; }
+  .handle-interactive input.ending-input { width: 60px; }
+
+  .handle-interactive input:focus {
+    outline: none;
+    border-color: #ffcc66;
+    box-shadow: 0 0 8px rgba(255,204,102,0.3);
+  }
+
+  .handle-interactive .plus-sign {
+    color: #8B6914;
+    font-size: 1.2em;
+    font-weight: bold;
+  }
+
+  .handle-interactive .auto-postfix {
+    color: #88ccff;
+    font-weight: bold;
+    font-size: 1em;
+    background: rgba(100,180,255,0.15);
+    padding: 3px 7px;
+    border-radius: 4px;
+    border: 1px solid rgba(100,180,255,0.4);
+    opacity: 0;
+    transition: opacity 0.4s;
+    text-transform: uppercase;
+  }
+
+  .handle-interactive .auto-postfix.visible { opacity: 1; }
+
+  .blade-interactive {
+    height: 65px;
+    min-width: 240px;
+    flex: 1;
+    max-width: 420px;
+    background: linear-gradient(to bottom, #909090, #B8B8B8, #808080, #A0A0A0);
+    clip-path: polygon(0 15%, 88% 0%, 100% 50%, 88% 100%, 0 85%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 0 35px 0 40px;
+    position: relative;
+    z-index: 1;
+    flex-shrink: 0;
+    transition: filter 0.3s;
+  }
+
+  .blade-interactive.correct { filter: brightness(1.2); }
+
+  .blade-interactive .blade-stem {
+    color: #1a1a1a;
+    font-weight: bold;
+    font-size: 1.2em;
+    min-width: 60px;
+    text-align: right;
+  }
+
+  .blade-interactive select {
+    background: rgba(0,0,0,0.3);
+    color: #cc0000;
+    border: 2px solid #cc0000;
+    border-radius: 5px;
+    padding: 4px 8px;
+    font-family: 'Neucha', cursive;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+  }
+
+  .blade-interactive select:focus {
+    outline: none;
+    border-color: #ff4444;
+    box-shadow: 0 0 8px rgba(204,0,0,0.4);
+  }
+
+  .blade-interactive .auto-ending {
+    color: #444;
+    font-weight: bold;
+    font-size: 1.1em;
+    min-width: 30px;
+    opacity: 0;
+    transition: opacity 0.5s;
+  }
+
+  .blade-interactive .auto-ending.visible { opacity: 1; }
+
+  .btn-row {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    font-family: 'Ruslan Display', cursive;
+    font-size: 1.1em;
+    padding: 10px 25px;
+    border: 2px solid #B8860B;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    letter-spacing: 1px;
+  }
+
+  .btn-check {
+    background: linear-gradient(to bottom, #8B6914, #6B4F10);
+    color: #ffcc66;
+  }
+
+  .btn-check:hover:not(:disabled) {
+    background: linear-gradient(to bottom, #A07818, #8B6914);
+    box-shadow: 0 0 15px rgba(184,134,11,0.5);
+    transform: translateY(-2px);
+  }
+
+  .btn-next {
+    background: linear-gradient(to bottom, #2E7D32, #1B5E20);
+    color: #a5d6a7;
+    border-color: #4CAF50;
+  }
+
+  .btn-next:hover:not(:disabled) {
+    background: linear-gradient(to bottom, #388E3C, #2E7D32);
+    box-shadow: 0 0 15px rgba(76,175,80,0.5);
+    transform: translateY(-2px);
+  }
+
+  .btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+  }
+
+  .feedback {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 1.2em;
+    min-height: 30px;
+    transition: all 0.3s;
+  }
+
+  .feedback.success {
+    color: #4CAF50;
+    text-shadow: 0 0 10px rgba(76,175,80,0.5);
+  }
+
+  .feedback.error { color: #f44336; }
+  .feedback.impossible {
+    color: #ff8800;
+    text-shadow: 0 0 10px rgba(255,136,0,0.5);
+    font-size: 1.1em;
+  }
+
+  .assembled .pommel-interactive {
+    border-color: #B8860B;
+    box-shadow: 0 0 25px rgba(184,134,11,0.6);
+    background: linear-gradient(135deg, #8B7355, #5C4033);
+  }
+
+  .assembled .handle-interactive {
+    border-color: #B8860B;
+    background: linear-gradient(to bottom, #6B4226, #4A2E18, #6B4226);
+  }
+
+  .assembled .blade-interactive {
+    background: linear-gradient(to bottom, #C0C0C0, #E8E8E8, #A8A8A8, #D0D0D0);
+    filter: brightness(1.1);
+  }
+
+  .broken .pommel-interactive {
+    border-color: #ff8800;
+    box-shadow: 0 0 20px rgba(255,136,0,0.5);
+    background: linear-gradient(135deg, #8B7355, #5C4033);
+  }
+  .broken .handle-interactive {
+    border-color: #ff8800;
+    background: linear-gradient(to bottom, #6B4226, #4A2E18, #6B4226);
+  }
+  .broken .blade-interactive {
+    background: linear-gradient(to bottom, #888, #aaa, #777, #999);
+    filter: grayscale(0.5);
+  }
+
+  .progress-bar {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin: 15px 0;
+    flex-wrap: wrap;
+  }
+
+  .progress-dot {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    background: #3E2723;
+    border: 2px solid #666;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7em;
+    color: #999;
+    transition: all 0.3s;
+  }
+
+  .progress-dot.done {
+    background: #2E7D32;
+    border-color: #4CAF50;
+    color: #fff;
+    box-shadow: 0 0 8px rgba(76,175,80,0.4);
+  }
+
+  .progress-dot.done-impossible {
+    background: #B8650A;
+    border-color: #ff8800;
+    color: #fff;
+    box-shadow: 0 0 8px rgba(255,136,0,0.4);
+  }
+
+  .progress-dot.current {
+    border-color: #ffcc66;
+    box-shadow: 0 0 10px rgba(255,204,102,0.4);
+    color: #ffcc66;
+  }
+
+  .score-display {
+    text-align: center;
+    font-family: 'Ruslan Display', cursive;
+    font-size: 1.2em;
+    color: #ffcc66;
+    margin: 10px 0;
+  }
+
+  .completion-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  .completion-overlay.show { display: flex; }
+
+  .completion-content {
+    text-align: center;
+    padding: 40px;
+    background: rgba(60,30,10,0.9);
+    border: 3px solid #B8860B;
+    border-radius: 15px;
+    max-width: 500px;
+  }
+
+  .completion-content h2 {
+    font-family: 'Ruslan Display', cursive;
+    font-size: 2em;
+    color: #ffcc66;
+    margin-bottom: 15px;
+  }
+
+  .completion-content p {
+    font-size: 1.3em;
+    color: #f0e6d3;
+    margin-bottom: 20px;
+  }
+
+  .completion-content .btn { font-size: 1.2em; padding: 12px 30px; }
+
+  .hint-box {
+    background: rgba(139,105,20,0.2);
+    border: 1px solid #8B6914;
+    border-radius: 8px;
+    padding: 10px 15px;
+    margin: 10px auto;
+    max-width: 600px;
+    text-align: center;
+    font-size: 0.95em;
+    color: #ccaa77;
+  }
+
+  .hint-box strong { color: #ffcc66; }
+
+  .anvil-decoration {
+    text-align: center;
+    font-size: 2em;
+    margin: 5px 0;
+    opacity: 0.6;
+  }
+
+  @media (max-width: 768px) {
+    .game-shashka { flex-direction: column; gap: 10px; }
+    .blade, .blade-interactive {
+      clip-path: polygon(10% 0%, 90% 0%, 100% 50%, 90% 100%, 10% 100%, 0% 50%);
+      min-width: 220px;
+    }
+    .handle-interactive { min-width: 220px; }
+    .header h1 { font-size: 1.6em; }
+    .current-verb { font-size: 1.5em; }
+  }
+</style>
+</head>
+<body>
+
+<div class="fire-container"><div class="fire"></div></div>
+
+<div class="container">
+  <div class="header">
+    <h1>⚒ Кузница Причастий </h1>
+    <div class="subtitle">Запорожская Сечь — Выкуй шашку из глагола!</div>
+  </div>
+
+  <div class="anvil-decoration">🔥 🛡️ 🔥</div>
+
+  <!-- Образец -->
+  <div class="sample-section">
+    <div class="sample-verb">ДУМАТЬ</div>
+    <div class="sample-shashka">
+      <div class="pommel">
+        <span class="conj">1 спр.</span>
+        <span class="aspect">несов. вид</span>
+      </div>
+      <div class="handle">
+        <span class="stem">ДУМА</span>
+        <span class="ending">ЮТ</span>
+      </div>
+      <div class="blade">
+        <span class="stem">ДУМА</span>
+        <span class="suffix">ЮЩ</span>
+        <span class="part-ending">ИЙ</span>
+      </div>
+    </div>
+    <div style="text-align:center; margin-top:10px; color:#cc9966; font-size:1.1em;">
+      = <strong style="color:#ffcc66; font-size:1.2em;">ДУМАЮЩИЙ</strong>
+    </div>
+  </div>
+
+  <div class="progress-bar" id="progressBar"></div>
+  <div class="score-display" id="scoreDisplay">Выковано шашек: 0 / 11</div>
+
+  <!-- Игра -->
+  <div class="game-section" id="gameSection">
+    <div class="current-verb" id="currentVerb"></div>
+    <div class="verb-instruction">Собери шашку — образуй действительное причастие настоящего времени!</div>
+
+    <div class="hint-box" id="hintBox">
+      <strong>Набалдашник:</strong> выбери спряжение и вид &nbsp;|&nbsp;
+      <strong>Рукоятка:</strong> впиши основу и окончание 3-го лица мн.ч. &nbsp;|&nbsp;
+      <strong>Лезвие:</strong> выбери суффикс причастия
+    </div>
+
+    <div class="game-shashka" id="gameShashka">
+      <div class="pommel-interactive" id="pommel">
+        <select id="conjSelect">
+          <option value="">Спряжение?</option>
+          <option value="1">1-е спр.</option>
+          <option value="2">2-е спр.</option>
+        </select>
+        <select id="aspectSelect">
+          <option value="">Вид?</option>
+          <option value="нсв">Несов. вид</option>
+          <option value="св">Сов. вид</option>
+        </select>
+        <span class="pommel-label">набалдашник</span>
+      </div>
+
+      <div class="handle-interactive" id="handle">
+        <input type="text" class="stem-input" id="stemInput" placeholder="основа" autocomplete="off" spellcheck="false">
+        <span class="plus-sign">+</span>
+        <input type="text" class="ending-input" id="endingInput" placeholder="оконч." autocomplete="off" spellcheck="false">
+        <span class="auto-postfix" id="autoPostfix">СЯ</span>
+      </div>
+
+      <div class="blade-interactive" id="blade">
+        <span class="blade-stem" id="bladeStem"></span>
+        <select id="suffixSelect">
+          <option value="">суфф.</option>
+          <option value="ущ">УЩ</option>
+          <option value="ющ">ЮЩ</option>
+          <option value="ащ">АЩ</option>
+          <option value="ящ">ЯЩ</option>
+          <option value="нет">НЕТ ФОРМЫ</option>
+        </select>
+        <span class="auto-ending" id="autoEnding">ий</span>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-check" id="checkBtn" onclick="checkAnswer()">⚒ Проверить</button>
+      <button class="btn btn-next" id="nextBtn" onclick="nextVerb()" disabled>Следующий глагол →</button>
+    </div>
+
+    <div class="feedback" id="feedback"></div>
+  </div>
+</div>
+
+<div class="completion-overlay" id="completionOverlay">
+  <div class="completion-content">
+    <h2>⚔ Слава Кузнецу! ⚔</h2>
+    <p id="completionText"></p>
+    <button class="btn btn-check" onclick="restartGame()">Начать заново</button>
+  </div>
+</div>
+
+<script>
+const verbsData = [
+  {
+    verb: "Шептать",
+    conjugation: "1",
+    aspect: "нсв",
+    thirdPerson: "шепчут",
+    stem: "шепч",
+    ending3p: "ут",
+    postfix: "",
+    suffix: "ущ",
+    participleEnding: "ий",
+    participle: "шепчущий"
+  },
+  {
+    verb: "Терпеть",
+    conjugation: "2",
+    aspect: "нсв",
+    thirdPerson: "терпят",
+    stem: "терп",
+    ending3p: "ят",
+    postfix: "",
+    suffix: "ящ",
+    participleEnding: "ий",
+    participle: "терпящий"
+  },
+  {
+    verb: "Видеть",
+    conjugation: "2",
+    aspect: "нсв",
+    thirdPerson: "видят",
+    stem: "вид",
+    ending3p: "ят",
+    postfix: "",
+    suffix: "ящ",
+    participleEnding: "ий",
+    participle: "видящий"
+  },
+  {
+    verb: "Бороться",
+    conjugation: "1",
+    aspect: "нсв",
+    thirdPerson: "борются",
+    stem: "бор",
+    ending3p: "ют",
+    postfix: "ся",
+    suffix: "ющ",
+    participleEnding: "ийся",
+    participle: "борющийся"
+  },
+  {
+    verb: "Служить",
+    conjugation: "2",
+    aspect: "нсв",
+    thirdPerson: "служат",
+    stem: "служ",
+    ending3p: "ат",
+    postfix: "",
+    suffix: "ащ",
+    participleEnding: "ий",
+    participle: "служащий"
+  },
+  {
+    verb: "Красить",
+    conjugation: "2",
+    aspect: "нсв",
+    thirdPerson: "красят",
+    stem: "крас",
+    ending3p: "ят",
+    postfix: "",
+    suffix: "ящ",
+    participleEnding: "ий",
+    participle: "красящий"
+  },
+  {
+    verb: "Нести",
+    conjugation: "1",
+    aspect: "нсв",
+    thirdPerson: "несут",
+    stem: "нес",
+    ending3p: "ут",
+    postfix: "",
+    suffix: "ущ",
+    participleEnding: "ий",
+    participle: "несущий"
+  },
+  {
+    verb: "Лаять",
+    conjugation: "1",
+    aspect: "нсв",
+    thirdPerson: "лают",
+    stem: "ла",
+    ending3p: "ют",
+    postfix: "",
+    suffix: "ющ",
+    participleEnding: "ий",
+    participle: "лающий"
+  },
+  {
+    verb: "Думать",
+    conjugation: "1",
+    aspect: "нсв",
+    thirdPerson: "думают",
+    stem: "дума",
+    ending3p: "ют",
+    postfix: "",
+    suffix: "ющ",
+    participleEnding: "ий",
+    participle: "думающий"
+  },
+  {
+    verb: "Залаять",
+    conjugation: "1",
+    aspect: "св",
+    thirdPerson: "залаят",
+    stem: "залая",
+    ending3p: "т",
+    postfix: "",
+    suffix: "нет",
+    participleEnding: "",
+    participle: "—",
+    impossible: true
+  },
+  {
+    verb: "Победить",
+    conjugation: "2",
+    aspect: "св",
+    thirdPerson: "победят",
+    stem: "побед",
+    ending3p: "ят",
+    postfix: "",
+    suffix: "нет",
+    participleEnding: "",
+    participle: "—",
+    impossible: true
+  }
+];
+
+let currentIndex = 0;
+let score = 0;
+let completed = [];
+let shuffled = [];
+
+function shuffleArray(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function init() {
+  const imperfective = verbsData.filter(v => !v.impossible);
+  const perfective = verbsData.filter(v => v.impossible);
+
+  const shuffledImperfective = shuffleArray(imperfective);
+  const shuffledPerfective = shuffleArray(perfective);
+
+  shuffled = [...shuffledImperfective, ...shuffledPerfective];
+
+  currentIndex = 0;
+  score = 0;
+  completed = [];
+  document.getElementById('completionOverlay').classList.remove('show');
+  renderProgress();
+  loadVerb();
+}
+
+function renderProgress() {
+  const bar = document.getElementById('progressBar');
+  bar.innerHTML = '';
+  shuffled.forEach((v, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'progress-dot';
+    if (completed.includes(i)) {
+      dot.classList.add(v.impossible ? 'done-impossible' : 'done');
+      dot.textContent = v.impossible ? '' : '✓';
+    } else if (i === currentIndex) {
+      dot.classList.add('current');
+      dot.textContent = i + 1;
+    } else {
+      dot.textContent = i + 1;
+    }
+    bar.appendChild(dot);
+  });
+  document.getElementById('scoreDisplay').textContent =
+    `Выковано шашек: ${score} / ${shuffled.filter(v => !v.impossible).length}`;
+}
+
+function loadVerb() {
+  if (currentIndex >= shuffled.length) {
+    showCompletion();
+    return;
+  }
+
+  const v = shuffled[currentIndex];
+  document.getElementById('currentVerb').textContent = v.verb.toUpperCase();
+
+  document.getElementById('conjSelect').value = '';
+  document.getElementById('aspectSelect').value = '';
+  document.getElementById('stemInput').value = '';
+  document.getElementById('endingInput').value = '';
+  document.getElementById('suffixSelect').value = '';
+  document.getElementById('bladeStem').textContent = '';
+  document.getElementById('autoEnding').classList.remove('visible');
+  document.getElementById('autoEnding').textContent = v.participleEnding || 'ий';
+
+  const postfixEl = document.getElementById('autoPostfix');
+  if (v.postfix) {
+    postfixEl.textContent = v.postfix.toUpperCase();
+    postfixEl.classList.add('visible');
+  } else {
+    postfixEl.classList.remove('visible');
+  }
+
+  document.getElementById('pommel').className = 'pommel-interactive';
+  document.getElementById('handle').className = 'handle-interactive';
+  document.getElementById('blade').className = 'blade-interactive';
+  const shashka = document.getElementById('gameShashka');
+  shashka.classList.remove('assembled', 'broken');
+
+  document.getElementById('feedback').textContent = '';
+  document.getElementById('feedback').className = 'feedback';
+  document.getElementById('checkBtn').disabled = false;
+  document.getElementById('nextBtn').disabled = true;
+
+  renderProgress();
+}
+
+document.getElementById('stemInput').addEventListener('input', function() {
+  document.getElementById('bladeStem').textContent = this.value.toUpperCase();
+});
+
+document.getElementById('suffixSelect').addEventListener('change', function() {
+  const v = shuffled[currentIndex];
+  const endingEl = document.getElementById('autoEnding');
+
+  if (this.value === 'нет') {
+    endingEl.classList.remove('visible');
+    endingEl.textContent = '';
+  } else if (this.value) {
+    endingEl.textContent = v.participleEnding || 'ий';
+    endingEl.classList.add('visible');
+  } else {
+    endingEl.classList.remove('visible');
+  }
+});
+
+function checkAnswer() {
+  const v = shuffled[currentIndex];
+  const conj = document.getElementById('conjSelect').value;
+  const aspect = document.getElementById('aspectSelect').value;
+  const stem = document.getElementById('stemInput').value.trim().toLowerCase();
+  const ending = document.getElementById('endingInput').value.trim().toLowerCase();
+  const suffix = document.getElementById('suffixSelect').value;
+
+  const pommel = document.getElementById('pommel');
+  const handle = document.getElementById('handle');
+  const blade = document.getElementById('blade');
+  const feedback = document.getElementById('feedback');
+  const shashka = document.getElementById('gameShashka');
+
+  let allCorrect = true;
+  let messages = [];
+
+  if (conj !== v.conjugation || aspect !== v.aspect) {
+    pommel.className = 'pommel-interactive wrong';
+    allCorrect = false;
+    const aspectText = v.aspect === 'нсв' ? 'несовершенный' : 'совершенный';
+    messages.push(`Набалдашник: нужно ${v.conjugation}-е спряжение, ${aspectText} вид`);
+  } else {
+    pommel.className = 'pommel-interactive correct';
+  }
+
+  const expectedEnding = v.ending3p;
+  if (stem !== v.stem || ending !== expectedEnding) {
+    handle.className = 'handle-interactive wrong';
+    allCorrect = false;
+    let hint = `Рукоятка: основа «${v.stem}» + окончание «${v.ending3p}»`;
+    if (v.postfix) hint += ` + постфикс «${v.postfix}» (автоматически)`;
+    hint += ` → они ${v.thirdPerson}`;
+    messages.push(hint);
+  } else {
+    handle.className = 'handle-interactive correct';
+  }
+
+  if (v.impossible) {
+    if (suffix !== 'нет') {
+      blade.className = 'blade-interactive';
+      allCorrect = false;
+      messages.push('Лезвие: от глаголов совершенного вида действительное причастие настоящего времени НЕ ОБРАЗУЕТСЯ! Выбери «НЕТ ФОРМЫ»');
+    } else {
+      blade.className = 'blade-interactive correct';
+    }
+  } else {
+    if (suffix !== v.suffix) {
+      blade.className = 'blade-interactive';
+      allCorrect = false;
+      messages.push(`Лезвие: нужен суффикс ${v.suffix.toUpperCase()}!`);
+    } else {
+      blade.className = 'blade-interactive correct';
+      document.getElementById('autoEnding').classList.add('visible');
+    }
+  }
+
+  if (allCorrect) {
+    if (v.impossible) {
+      shashka.classList.add('broken');
+      feedback.className = 'feedback impossible';
+      feedback.innerHTML = ` От глагола <strong>${v.verb.toUpperCase()}</strong> (совершенный вид) действительное причастие настоящего времени <strong>не образуется</strong>! Такую шашку выковать нельзя. 🔥`;
+    } else {
+      shashka.classList.add('assembled');
+      feedback.className = 'feedback success';
+      feedback.innerHTML = `⚔ Шашка выкована! <strong>${v.participle.toUpperCase()}</strong> — молодец, кузнец! 🔥`;
+      score++;
+    }
+
+    document.getElementById('checkBtn').disabled = true;
+    document.getElementById('nextBtn').disabled = false;
+
+    if (!completed.includes(currentIndex)) {
+      completed.push(currentIndex);
+    }
+    renderProgress();
+    createSparks();
+  } else {
+    feedback.className = 'feedback error';
+    feedback.innerHTML = messages.join('<br>');
+  }
+}
+
+function nextVerb() {
+  currentIndex++;
+  loadVerb();
+}
+
+function createSparks() {
+  const container = document.querySelector('.fire-container');
+  for (let i = 0; i < 15; i++) {
+    const spark = document.createElement('div');
+    spark.className = 'ember';
+    spark.style.left = (20 + Math.random() * 60) + '%';
+    spark.style.animationDelay = (Math.random() * 1) + 's';
+    spark.style.animationDuration = (2 + Math.random() * 2) + 's';
+    spark.style.background = ['#ffcc00', '#ff8800', '#ff4400', '#ffdd44'][Math.floor(Math.random() * 4)];
+    container.appendChild(spark);
+    setTimeout(() => spark.remove(), 4000);
+  }
+}
+
+function showCompletion() {
+  const overlay = document.getElementById('completionOverlay');
+  const text = document.getElementById('completionText');
+  text.innerHTML =
+    `Ты выковал <strong>${score}</strong> шашек из ${shuffled.filter(v => !v.impossible).length} возможных!<br>` +
+    `И узнал, что от глаголов совершенного вида причастие настоящего времени не образуется.<br>` +
+    `Мастер кузнечного дела причастий! ⚔`;
+  overlay.classList.add('show');
+}
+
+function restartGame() { init(); }
+
+function createAmbientEmbers() {
+  const container = document.querySelector('.fire-container');
+  setInterval(() => {
+    const ember = document.createElement('div');
+    ember.className = 'ember';
+    ember.style.left = Math.random() * 100 + '%';
+    ember.style.animationDuration = (2 + Math.random() * 3) + 's';
+    container.appendChild(ember);
+    setTimeout(() => ember.remove(), 5000);
+  }, 800);
+}
+
+init();
+createAmbientEmbers();
+</script>
+
+</body>
+</html>
